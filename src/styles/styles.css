@@ -1,0 +1,132 @@
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+.container {
+  display: grid;
+  place-content: center;
+  min-height: 100vh;
+  background-color: rgb(31, 34, 34);
+}
+.wrapper {
+  background-color: #fff;
+  width: 800px;
+  height: 500px;
+  overflow-y: hidden;
+  border-radius: 20px;
+  padding: 20px;
+}
+.header {
+  height: 70px;
+  display: flex;
+  flex-direction: column;
+  color: rgb(31, 34, 34);
+}
+.header-row1,
+.header-row2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.header-row2 {
+  justify-content: space-between;
+  padding: 10px;
+}
+.header-row2 span {
+  width: 130px;
+  text-align: center;
+}
+.table {
+  display: flex;
+  height: calc(100% - 70px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.side {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+.background {
+  position: absolute;
+}
+.price {
+  z-index: 2;
+}
+.sell-side {
+  padding-right: 0;
+}
+.buy-side {
+  padding-left: 0;
+}
+.buy-side .price {
+  color: hsl(144, 99%, 25%);
+  font-weight: bold;
+}
+.sell-side .price {
+  color: hsl(1, 78%, 53%);
+  font-weight: bold;
+}
+.buy-side .background {
+  background-color: hsla(144, 99%, 60%, 0.2);
+  height: 100%;
+  width: 5px;
+}
+
+.sell-side .background {
+  background-color: hsla(1, 78%, 70%, 0.2);
+  height: 100%;
+  width: 5px;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding: 5px 10px;
+}
+.sell-row {
+  flex-direction: row-reverse;
+  padding-right: 0;
+}
+.buy-row {
+  padding-left: 0;
+}
+.total {
+  width: 130px;
+  text-align: center;
+}
+.quantity {
+  width: 130px;
+  text-align: center;
+}
+.price {
+  width: calc(130px / 2);
+}
+.buy-side .price {
+  text-align: left;
+}
+.sell-side .price {
+  text-align: right;
+}
