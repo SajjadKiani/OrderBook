@@ -1,10 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-// import data from "./data/data.json";
 import "./styles/styles.css";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 
 ReactDOM.render(
-    <App />
+    <BrowserRouter basename={'/OrderBook'}>
+        <Switch>
+            <Route path={'/'} component={App} />
+        </Switch>
+    </BrowserRouter>
     ,document.getElementById("root")
 );
