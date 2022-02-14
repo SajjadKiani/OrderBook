@@ -1,12 +1,10 @@
-# exchanges orderBook simulation
+# Orderbook
 
 ## about
 
-A simple orderBook simulation that use `src/data/data.json` for data. 
+bitstamp Orderbook, making connection with websocket to Bitstamp exchange
 
-we can also use an exchangeAPI for the data.
-
-<img src="/img/orderbook.png" alt="orderbook" width="70%"/>
+<img src="/img/pic.png" alt="orderbook" width="70%"/>
 
 # run
 

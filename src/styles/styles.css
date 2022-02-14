@@ -31,8 +31,8 @@
 }
 .wrapper {
   background-color: #fff;
-  width: 800px;
-  height: 500px;
+  width: 900px;
+  height: 800px;
   overflow-y: hidden;
   border-radius: 20px;
   padding: 20px;
@@ -64,7 +64,7 @@
   overflow-x: hidden;
 }
 .side {
-  width: 50%;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -82,12 +82,11 @@
 }
 .buy-side .price {
   color: hsl(144, 99%, 25%);
-  font-weight: bold;
 }
 .sell-side .price {
   color: hsl(1, 78%, 53%);
-  font-weight: bold;
 }
+
 .buy-side .background {
   background-color: hsla(144, 99%, 60%, 0.2);
   height: 100%;
@@ -108,10 +107,10 @@
 }
 .sell-row {
   flex-direction: row-reverse;
-  padding-right: 0;
+  padding-right:20px;
 }
 .buy-row {
-  padding-left: 0;
+  padding-left: 20px;
 }
 .total {
   width: 130px;
@@ -129,4 +128,10 @@
 }
 .sell-side .price {
   text-align: right;
+}
+
+.info {
+  text-align: center;
+  color: #ffffff;
+  margin-bottom: 5px;
 }

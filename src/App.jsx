@@ -1,66 +1,103 @@
-import React from "react";
+import React, {useState} from "react";
 import OrderbookHeader from "./components/OrderbookHeader";
 import OrderbookListItem from "./components/OrderbookListItem";
 
-const organizeOrders = (orders) => {
-    const newOrders = []
-
-    orders.map((order) => {
-      let quantity = 0
-      const sameOrders = orders.filter((x) => x.price === order.price)
-      sameOrders.map((i) => quantity += i.quantity)
-      orders = orders.filter((j) => j.price !== order.price)
-      newOrders.push({...order , quantity: quantity})
-    });
-    return newOrders.filter((i) => i.quantity !== 0);
-}
-
-const calTotal = (orders, order) => {
-  let total = 0;
-  let res;
-  orders.forEach(i => {
-      total += i.quantity; 
-      if (i.price === order.price) {
-        res = total;
-      }
-        
-  });
-  return res
-}
-
-
-const calSum = (orders) => {
-  let sum=0
-  orders.forEach((i) => {sum += i.quantity})
-  return sum
-}
-
-
 function App({ data }) {
 
-  const buyOrders = organizeOrders(data.filter((order) => order.type === "buy")).sort((a,b) => b.price - a.price);
-  const sellOrders = organizeOrders(data.filter((order) => order.type === "sell")).sort((a,b) => a.price - b.price);
-  
-  const sumBuyOrders = calSum(buyOrders)
-  const sumSellOrders = calSum(sellOrders)
+
+  const [buyOrders , setBuyOrders] = useState([])
+  const [sellOrders , setSellOrders] = useState([])
+
+    React.useEffect(() => {
+      const socket = new WebSocket("wss://ws.bitstamp.net");
+
+      socket.onopen = function(event) {
+        console.log('open:');
+        console.log(event);
+
+        const apiCall = {
+          "event": "bts:subscribe",
+          "data": {
+            "channel": "order_book_btcusd"
+          }
+        }
+
+        socket.send(JSON.stringify(apiCall));
+      }
+
+      socket.onmessage = function(event) {
+        let message = event.data;
+
+        let messageElem = document.createElement('div');
+        messageElem.textContent = message;
+
+        if (JSON.parse(message).event !== 'bts:subscription_succeeded'){
+          setSellOrders(JSON.parse(message).data.bids);
+          setBuyOrders(JSON.parse(message).data.asks)
+        }
+
+        socket.onerror = function (event) {
+          console.log('event')
+          console.log(event)
+        }
+
+        socket.onclose = function (evens) {
+          console.log('close:')
+          console.log(event)
+        }
+      }
+
+      return () => {
+        socket.close(1000,'work end!')
+      }
+
+    },[])
+
+    const calTotal = (i,type) => {
+        let total = 0
+
+        const list = type ===  'sell' ? sellOrders : buyOrders;
+
+        for (let j = 0; j <= i; j++) {
+          total += parseInt(list[j][1])
+        }
+
+      return total
+    }
+
+    const calSum = (type) => {
+      let sum = 0
+      const list = type ===  'sell' ? sellOrders : buyOrders;
+      list.forEach(i => {sum += parseInt(i[1])})
+      return sum
+    }
+
+    React.useEffect(() => {
+      if (sellOrders.length) {
+
+      }
+    },[sellOrders])
 
 
   return (
     <div className="container">
+      <h1 className={'info'}>Bitstamp Orderbook (BTC/USD)</h1>
       <div className="wrapper">
         <OrderbookHeader />
         <div className="table">
           <div className="sell-side side">
             {sellOrders.map((order,i) => {
-              const total =calTotal(sellOrders,order);
-               return <OrderbookListItem key={i} index={i} type={'sell'} price={order.price} total={total} amount={order.quantity} bgWidth={total*100/sumSellOrders} />
+              const total = calTotal(i,'sell')
+              const sum = calSum('sell')
+              return <OrderbookListItem amount={order[1]} type={'sell'} price={order[0]} index={i} key={i} bgWidth={total*100/sum} total={total} />
             })}
           </div>
           <div className="buy-side side">
-            {buyOrders.map((order , i) => {
-                const total = calTotal(buyOrders,order);
-                return <OrderbookListItem key={i} index={i} type={'buy'} price={order.price} total={total} amount={order.quantity} bgWidth={total*100/sumBuyOrders} />
-              })}
+            {buyOrders.map((order,i) => {
+              const total = calTotal(i,'buy')
+              const sum = calSum('buy')
+              return <OrderbookListItem amount={order[1]} type={'buy'} price={order[0]} index={i} key={i} bgWidth={total*100/sum} total={total}/>
+            })}
           </div>
         </div>
       </div>
