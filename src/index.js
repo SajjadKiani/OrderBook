@@ -5,7 +5,7 @@ import "./styles/styles.css";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 
 ReactDOM.render(
-    <BrowserRouter basename={'/OrderBook/'}>
+    <BrowserRouter>
         <Switch>
             <Route path={'/'} component={App} />
         </Switch>

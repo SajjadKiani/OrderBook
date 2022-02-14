@@ -36,15 +36,16 @@ function App({ data }) {
           setBuyOrders(JSON.parse(message).data.asks)
         }
 
-        socket.onerror = function (event) {
-          console.log('event')
-          console.log(event)
-        }
+      }
 
-        socket.onclose = function (evens) {
-          console.log('close:')
-          console.log(event)
-        }
+      socket.onerror = function (event) {
+        console.log('event')
+        console.log(event)
+      }
+
+      socket.onclose = function (event) {
+        console.log('close:')
+        console.log(event)
       }
 
       return () => {
